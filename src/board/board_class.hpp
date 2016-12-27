@@ -753,11 +753,20 @@ namespace board
                 reqv2.add_oppo_group_lib2(false);
                 reqv2.add_oppo_group_lib3(false);
                 reqv2.add_oppo_group_lib4_plus(false);
+                reqv2.add_all_ones(true);
+                reqv2.add_our_true_eye(false);
+                reqv2.add_our_fake_eye(false);
+                reqv2.add_our_semi_eye(false);
+                reqv2.add_oppo_true_eye(false);
+                reqv2.add_oppo_fake_eye(false);
+                reqv2.add_oppo_semi_eye(false);
+                reqv2.add_all_zeros(false);
             } else
             {
                 reqv2.add_board_state(false);
                 bool is_our = group->getPlayer() == player;
                 std::size_t lib = group->getLiberty();
+                Player opplayer = getOpponentPlayer(player);
                 if (is_our)
                 {
                     reqv2.add_our_group_lib1(lib == 1);
@@ -779,6 +788,14 @@ namespace board
                     reqv2.add_our_group_lib3(false);
                     reqv2.add_our_group_lib4_plus(false);
                 }
+                reqv2.add_all_ones(true);
+                reqv2.add_our_true_eye(isTrueEye(p,player));
+                reqv2.add_our_fake_eye(isFakeEye(p,player));
+                reqv2.add_our_semi_eye(isSemiEye(p,player));
+                reqv2.add_oppo_true_eye(isTrueEye(p,opplayer));
+                reqv2.add_oppo_fake_eye(isFakeEye(p,opplayer));
+                reqv2.add_oppo_semi_eye(isSemiEye(p,opplayer));
+                reqv2.add_all_zeros(false);
             }
         });
         return reqv2;
