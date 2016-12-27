@@ -659,7 +659,7 @@ namespace board
     {
         gocnn::RequestV1 reqv1;
         reqv1.set_board_size(W * H);
-        reqv1.mutable_is_simple_ko()->Reserve(reqv1.board_size());
+        reqv1.mutable_board_state()->Reserve(reqv1.board_size());
         reqv1.mutable_our_group_lib1()->Reserve(reqv1.board_size());
         reqv1.mutable_our_group_lib2()->Reserve(reqv1.board_size());
         reqv1.mutable_our_group_lib3_plus()->Reserve(reqv1.board_size());
@@ -668,13 +668,16 @@ namespace board
         reqv1.mutable_oppo_group_lib3_plus()->Reserve(reqv1.board_size());
         PointType::for_all([&](PointType p) {
             auto group = getPointGroup(p);
+            /*
             if (koPlayer == player && koPoint == p)
                 reqv1.add_is_simple_ko(true);
             else
                 reqv1.add_is_simple_ko(false);
+            */
             bool is_empty = group == groupEnd();
             if (is_empty)
             {
+                reqv1.add_board_state(true);
                 reqv1.add_our_group_lib1(false);
                 reqv1.add_our_group_lib2(false);
                 reqv1.add_our_group_lib3_plus(false);
@@ -683,6 +686,7 @@ namespace board
                 reqv1.add_oppo_group_lib3_plus(false);
             } else
             {
+                reqv1.add_board_state(false);
                 bool is_our = group->getPlayer() == player;
                 std::size_t lib = group->getLiberty();
                 if (is_our)
@@ -707,6 +711,80 @@ namespace board
         return reqv1;
     }
 
+    template <std::size_t W, std::size_t H>
+    auto Board<W, H>::generateRequestV2(Player player) -> gocnn::RequestV2
+    {
+        gocnn::RequestV2 reqv2;
+        reqv2.set_board_size(W * H);
+        reqv2.mutable_board_state()->Reserve(reqv2.board_size());
+        reqv2.mutable_our_group_lib1()->Reserve(reqv2.board_size());
+        reqv2.mutable_our_group_lib2()->Reserve(reqv2.board_size());
+        reqv2.mutable_our_group_lib3()->Reserve(reqv2.board_size());
+        reqv2.mutable_our_group_lib4_plus()->Reserve(reqv2.board_size());
+        reqv2.mutable_oppo_group_lib1()->Reserve(reqv2.board_size());
+        reqv2.mutable_oppo_group_lib2()->Reserve(reqv2.board_size());
+        reqv2.mutable_oppo_group_lib3()->Reserve(reqv2.board_size());
+        reqv2.mutable_oppo_group_lib4_plus()->Reserve(reqv2.board_size());
+        reqv2.mutable_all_ones()->Reserve(reqv2.board_size());
+        reqv2.mutable_our_true_eye()->Reserve(reqv2.board_size());
+        reqv2.mutable_our_fake_eye()->Reserve(reqv2.board_size());
+        reqv2.mutable_our_semi_eye()->Reserve(reqv2.board_size());
+        reqv2.mutable_oppo_true_eye()->Reserve(reqv2.board_size());
+        reqv2.mutable_oppo_fake_eye()->Reserve(reqv2.board_size());
+        reqv2.mutable_oppo_semi_eye()->Reserve(reqv2.board_size());
+        reqv2.mutable_all_zeros()->Reserve(reqv2.board_size());
+        PointType::for_all([&](PointType p) {
+            auto group = getPointGroup(p);
+            /*
+            if (koPlayer == player && koPoint == p)
+                reqv1.add_is_simple_ko(true);
+            else
+                reqv1.add_is_simple_ko(false);
+            */
+            bool is_empty = group == groupEnd();
+            if (is_empty)
+            {
+                reqv2.add_board_state(true);
+                reqv2.add_our_group_lib1(false);
+                reqv2.add_our_group_lib2(false);
+                reqv2.add_our_group_lib3(false);
+                reqv2.add_our_group_lib4_plus(false);
+                reqv2.add_oppo_group_lib1(false);
+                reqv2.add_oppo_group_lib2(false);
+                reqv2.add_oppo_group_lib3(false);
+                reqv2.add_oppo_group_lib4_plus(false);
+            } else
+            {
+                reqv2.add_board_state(false);
+                bool is_our = group->getPlayer() == player;
+                std::size_t lib = group->getLiberty();
+                if (is_our)
+                {
+                    reqv2.add_our_group_lib1(lib == 1);
+                    reqv2.add_our_group_lib2(lib == 2);
+                    reqv2.add_our_group_lib3(lib == 3);
+                    reqv2.add_our_group_lib4_plus(lib >= 4);
+                    reqv2.add_oppo_group_lib1(false);
+                    reqv2.add_oppo_group_lib2(false);
+                    reqv2.add_oppo_group_lib3(false);
+                    reqv2.add_oppo_group_lib4_plus(false);
+                } else
+                {
+                    reqv2.add_oppo_group_lib1(lib == 1);
+                    reqv2.add_oppo_group_lib2(lib == 2);
+                    reqv2.add_oppo_group_lib3(lib == 3);
+                    reqv2.add_oppo_group_lib4_plus(lib >= 4);
+                    reqv2.add_our_group_lib1(false);
+                    reqv2.add_our_group_lib2(false);
+                    reqv2.add_our_group_lib3(false);
+                    reqv2.add_our_group_lib4_plus(false);
+                }
+            }
+        });
+        return reqv2;
+    }
+
+    /*
     template<std::size_t W, std::size_t H>
     auto Board<W, H>::generateRequestV2(Player player) -> gocnn::RequestV2
     {
@@ -1000,6 +1078,7 @@ namespace board
 
         return reqv2;
     }
+    */
 }
 
 namespace std
