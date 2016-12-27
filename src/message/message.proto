@@ -3,13 +3,14 @@ package gocnn;
 
 message RequestV1 {
     int32 board_size = 1;
-    repeated bool our_group_lib1 = 2;
-    repeated bool our_group_lib2 = 3;
-    repeated bool our_group_lib3_plus = 4;
-    repeated bool oppo_group_lib1 = 5;
-    repeated bool oppo_group_lib2 = 6;
-    repeated bool oppo_group_lib3_plus = 7;
-    repeated bool is_simple_ko = 8;
+    repeated bool board_state = 2;
+    repeated bool our_group_lib1 = 3;
+    repeated bool our_group_lib2 = 4;
+    repeated bool our_group_lib3_plus = 5;
+    repeated bool oppo_group_lib1 = 6;
+    repeated bool oppo_group_lib2 = 7;
+    repeated bool oppo_group_lib3_plus = 8;
+    
 }
 
 message ResponseV1 {
@@ -19,45 +20,23 @@ message ResponseV1 {
 
 message RequestV2 {
     int32 board_size = 1;
-    repeated bool stone_color_our = 2;
-    repeated bool stone_color_oppo = 3;
-    repeated bool stone_color_empty = 4;
-    repeated bool turns_since_one = 5;
-    repeated bool turns_since_two = 6;
-    repeated bool turns_since_three = 7;
-    repeated bool turns_since_four = 8;
-    repeated bool turns_since_five = 9;
-    repeated bool turns_since_six = 10;
-    repeated bool turns_since_seven = 11;
-    repeated bool turns_since_more = 12;
-    repeated bool liberties_our_one = 13;
-    repeated bool liberties_our_two = 14;
-    repeated bool liberties_our_three = 15;
-    repeated bool liberties_our_more = 16;
-    repeated bool liberties_oppo_one = 17;
-    repeated bool liberties_oppo_two = 18;
-    repeated bool liberties_oppo_three = 19;
-    repeated bool liberties_oppo_more = 20;
-    repeated bool capture_size_one = 21;
-    repeated bool capture_size_two = 22;
-    repeated bool capture_size_three = 23;
-    repeated bool capture_size_four = 24;
-    repeated bool capture_size_five = 25;
-    repeated bool capture_size_six = 26;
-    repeated bool capture_size_seven = 27;
-    repeated bool capture_size_more = 28;
-    repeated bool self_atari_one = 29;
-    repeated bool self_atari_two = 30;
-    repeated bool self_atari_three = 31;
-    repeated bool self_atari_four = 32;
-    repeated bool self_atari_five = 33;
-    repeated bool self_atari_six = 34;
-    repeated bool self_atari_seven = 35;
-    repeated bool self_atari_more = 36;
-    repeated bool sensibleness = 37;
-    repeated bool ko = 38;
-    repeated bool border = 39;
-    repeated float position = 40;
+    repeated bool board_state = 2;
+    repeated bool our_group_lib1 = 3;
+    repeated bool our_group_lib2 = 4;
+    repeated bool our_group_lib3 = 5;
+    repeated bool our_group_lib4_plus = 6;
+    repeated bool oppo_group_lib1 = 7;
+    repeated bool oppo_group_lib2 = 8;
+    repeated bool oppo_group_lib3 = 9;
+    repeated bool oppo_group_lib4_plus = 10;
+    repeated bool all_ones = 11;
+    repeated bool our_true_eye = 12;
+    repeated bool our_fake_eye = 13;
+    repeated bool our_semi_eye = 14;
+    repeated bool oppo_true_eye = 15;
+    repeated bool oppo_fake_eye = 16;
+    repeated bool oppo_semi_eye = 17;
+    repeated bool all_zeros = 18;
 }
 
 message ResponseV2 {
